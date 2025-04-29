@@ -1,0 +1,20 @@
+PUSH 5 
+JUMP.EQ.0 L2
+JUMP.GT.0 Le
+PRINT "Negative" 
+HALT 
+ 
+Le: 
+PUSH 7 
+MOD 
+JUMP.EQ.0 L1 
+PRINT "Not Divisible by 3" 
+HALT 
+ 
+L1:
+PRINT "Divisible by 3" 
+HALT 
+
+L2:  
+PRINT "Zero" 
+HALT

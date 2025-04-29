@@ -1,0 +1,10 @@
+PUSH 420
+PUSH 2
+MOD
+JUMP.EQ.0 L1
+PRINT "odd"
+HALT
+
+L1:
+PRINT "even"
+HALT
