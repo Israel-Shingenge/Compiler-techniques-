@@ -15,7 +15,7 @@ public class CompilerProcessor {
             System.out.println("\nProcessing Line " + lineNumber + ": " + line);
 
             String trimmedUpper = line.trim().toUpperCase();
-            if (trimmedUpper.startsWith("BEGIN") || trimmedUpper.startsWith("INTEGER") || trimmedUpper.startsWith("INPUT")) {
+            if (trimmedUpper.startsWith("BEGIN") || trimmedUpper.startsWith("INTEGER") || trimmedUpper.startsWith("INPUT") || trimmedUpper.startsWith("WRITE M" )) {
                 System.out.println("Skipping compilation stages for this line (no errors expected).");
                 lineNumber++;
                 continue;

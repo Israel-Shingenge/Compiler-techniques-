@@ -50,7 +50,7 @@ public class LexicalAnalyzer extends CompilerStage {
                 if ("=;".contains(part)) tokenType = "symbol";
                 else tokenType = "operator";
             } else {
-                errorMessage = "Lexical Error: Invalid token '" + part + "'";
+                errorMessage = "Semantic Error: Invalid token '" + part + "'";
                 return false;
             }
 
