@@ -19,21 +19,22 @@ public class LexicalAnalyzer extends CompilerStage {
     public boolean process(String line) {
         errorMessage = null;
         tokens.clear();
-
+    
         System.out.println("======STAGE1: COMPILER TECHNIQUES--> LEXICAL ANALYSIS-Scanner");
         System.out.println("SYMBOL TABLE COMPRISING ATTRIBUTES AND TOKENS:\n");
-
-        String tempLine = line.replaceAll("([=+\\-*/;])", " $1 ");
+    
+        // Add space around all operators and symbols (including commas)
+        String tempLine = line.replaceAll("([=+\\-*/;,()])", " $1 ");
         String[] parts = tempLine.trim().split("\\s+");
-
+    
         int tokenCount = 0;
         for (int i = 0; i < parts.length; i++) {
             String part = parts[i];
             if (part.isEmpty()) continue;
             tokenCount++;
-
+    
             String tokenType;
-            if (part.matches("[A-Za-z]+")) {
+            if (part.matches("[A-Za-z][A-Za-z0-9]*")) {
                 if (isKeyword(part)) {
                     if (!isValidKeyword(part)) {
                         System.out.println("TOKEN#" + tokenCount + " " + part + " identifier");
@@ -47,16 +48,18 @@ public class LexicalAnalyzer extends CompilerStage {
                     tokenType = "identifier";
                 }
             } else if (part.matches("[=;+\\-*/]")) {
-                if ("=;".contains(part)) tokenType = "symbol";
+                if ("=;,".contains(part)) tokenType = "symbol";
                 else tokenType = "operator";
+            } else if (part.equals(",")) {
+                tokenType = "symbol";
             } else {
                 errorMessage = "Semantic Error: Invalid token '" + part + "'";
                 return false;
             }
-
+    
             tokens.add(new Token(tokenCount, part, tokenType));
             System.out.printf("TOKEN#%d %s %s%n", tokenCount, part, tokenType);
-
+    
             // Check for combined operators like */ or *+
             if (tokenType.equals("operator") && i + 1 < parts.length) {
                 String nextPart = parts[i + 1];
@@ -69,12 +72,12 @@ public class LexicalAnalyzer extends CompilerStage {
                 }
             }
         }
-
+    
         System.out.println("Total number of Tokens: " + tokens.size());
         System.out.println("GIVEN THE GRAMMAR: E=E1 | E=E1*E2 | E=E1+E2 | E=digit | E={0,1,2,3,4,5,6,7,8,9}");
-
         return true;
     }
+    
 
     private boolean isKeyword(String word) {
         // Accepts both valid and invalid keyword lookalikes
